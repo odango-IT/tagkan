@@ -1,0 +1,51 @@
+<main class="container mx-auto mt-28 px-5 flex">
+<div class="mx-auto md:w-2/3 w-full">
+  <a href="/"><i class="mb-5 fas fa-chevron-left"> 戻る</i></a>
+
+  <h1 class="font-bold text-4xl">タグ管理</h1>
+
+  <div class="bg-white py-6 sm:py-8 lg:py-12">
+
+  <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
+    <!-- text - start -->
+<div class="mb-10 md:mb-16">
+
+  <%= form_with(model: @tag, class: "w-full max-w-md flex gap-2 mx-auto") do |form| %>
+    <%= form.text_field :name, class: "w-full flex-1 bg-gray-white text-gray-800 placeholder-gray-400 border border-gray-300 focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" ,placeholder: "タグを追加"%>
+
+    <%= button_tag type: "submit", class: "inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded outline-none transition duration-100 px-4 py-2" do %>
+     <i class="fas fa-plus"></i>
+     <% end %>
+  <% end %>
+</div>
+<!-- text - end -->
+    <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-8">
+      <% @tags.each do |tag| %>
+
+      <!-- feature - start -->
+      <div class="flex bg-gray-50 border rounded-lg divide-x">
+
+        <div class="flex items-center text-indigo-500 p-2 md:p-4 hover:bg-gray-300 transition">
+          <a href="/tags/<%= tag.id %>" data-method="delete">
+          <i class="fas fa-times"></i>
+          </a>
+        </div>
+        <div class="flex items-center text-indigo-500 p-2 md:p-4 hover:bg-gray-300 transition">
+          <i class="fas fa-pen"></i>
+        </div>
+        <div class="p-4 md:p-6">
+          <h3 class="text-lg md:text-xl font-semibold"><%= tag.name %></h3>
+
+        </div>
+
+      </div>
+      <!-- feature - end -->
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+
+</div>
+</main>

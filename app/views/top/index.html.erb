@@ -1,0 +1,73 @@
+<!--
+CSSはtailwindを使用（https://tailwindui.com/）
+tailwindのテンプレートをflowriftからダウンロードして使用(https://flowrift.com/)
+-->
+<div class="bg-white lg:pb-12">
+  <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
+    <header class="flex justify-between items-center py-4 md:py-8">
+      <!-- logo - start -->
+      <a href="/" class="inline-flex items-center text-black-800 text-2xl md:text-3xl font-bold gap-2.5" aria-label="logo">
+        #タグカン
+      </a>
+      <!-- logo - end -->
+      <!--<form class="w-full max-w-md flex gap-2">
+        <input placeholder="タグを入力" class="w-full flex-1 bg-gray-white text-gray-800 placeholder-gray-400 border border-gray-300 focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
+
+        <button class="inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded outline-none transition duration-100 px-4 py-2"><i class="fas fa-search"></i></button>
+      </form>-->
+
+      <%= form_with(url: '/s', class: "w-full max-w-md flex gap-2 mx-auto") do |form| %>
+        <%= form.text_field :tags, class: "w-full flex-1 bg-gray-white text-gray-800 placeholder-gray-400 border border-gray-300 focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" ,placeholder: "タグを追加"%>
+
+        <%= button_tag type: "submit", class: "inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded outline-none transition duration-100 px-4 py-2" do %>
+         <i class="fas fa-search"></i>
+         <% end %>
+      <% end %>
+
+      <!-- buttons - start -->
+      <% if user_signed_in? %>
+      <div class="hidden lg:flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-2.5 -ml-8">
+        <%= link_to 'タグを管理', tags_path, class: "hidden lg:inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3" %>
+        <%= link_to 'ファイルを追加', new_post_path, class: "inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3" %>
+        <%= link_to "ログアウト", destroy_user_session_path, data: {"turbo-method": :delete}, class: "inline-block focus-visible:ring ring-indigo-300 text-gray-500 hover:text-indigo-500 active:text-indigo-600 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-4 py-3" %>
+      </div>
+      <% else %>
+      <div class="hidden lg:flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-2.5 -ml-8">
+        <%= link_to "ログイン", new_user_session_path, class: "inline-block focus-visible:ring ring-indigo-300 text-gray-500 hover:text-indigo-500 active:text-indigo-600 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-4 py-3" %>
+        <%= link_to "新規登録", new_user_registration_path, class: "inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3" %>
+      </div>
+      <% end %>
+      <!-- buttons - end -->
+    </header>
+
+    <hr>
+    <div>
+      <% @posts.each do |post| %>
+      <div class="bg-white py-5 sm:py-5 lg:py-5 w-full">
+      <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
+        <div class="flex flex-col sm:flex-row justify-between items-center bg-gray-100 rounded-lg gap-4 p-4 md:p-8">
+          <div>
+            <h2 class="text-indigo-500 text-xl md:text-2xl font-bold"><a href="<%= edit_post_path(post) %>"><%= post.name %></a></h2>
+            <p class="text-gray-600">
+              <% post.post_tags.each do |tag| %>
+              <% tag = Tag.find(tag.tag_id) %>
+              <a href="/s/<%= tag.name %>">#<%= tag.name %></a>
+              <% end %>
+            </p>
+          </div>
+
+
+          <a href="<%= post.path %>" class="hidden lg:inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-4 py-3" download="<%= post.name %>">
+            <i class="fas fa-download"></i>
+          </a>
+
+        </div>
+      </div>
+    </div>
+      <% end %>
+
+
+    </div>
+
+  </div>
+</div>

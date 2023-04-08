@@ -1,0 +1,43 @@
+<main class="container mx-auto mt-28 px-5 flex">
+<div class="mx-auto md:w-2/3 w-full">
+  <a href="/"><i class="mb-5 fas fa-chevron-left"> 戻る</i></a>
+  <h1 class="font-bold text-4xl">編集</h1>
+
+  <%= form_with(model: @post, class: "contents") do |form| %>
+    <% if @post.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+        <ul>
+          <% @post.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="my-5">
+      <p>ファイル名</p>
+      <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+
+    <div class="my-5">
+        <p>タグを編集</p>
+        <%= form.text_field :tag, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", value: @tags_str %>
+    </div>
+
+    <div class="my-10">
+      <a href="<%= @post.path %>" class="hidden lg:inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-4 py-3" download="<%= @post.name %>">
+        <i class="fas fa-download">ファイルをダウンロード</i>
+      </a>
+
+    </div>
+
+    <div class="inline">
+      <%= form.submit "更新", class: "inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3" %>
+    </div>
+  <% end %>
+  <%= link_to '削除', post_path(@post), data: {"turbo-method": :delete}, class: "hidden lg:inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3 mx-3" %>
+</div>
+</main>
